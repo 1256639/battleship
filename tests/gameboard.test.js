@@ -37,4 +37,36 @@ describe('Gameboard', () => {
         board.receiveAttack(3, 3);
         expect(board.getMissedAttacks()).toEqual([{ x:3, y:3 }]);
     });
-})
+
+    test('allShipsSunk is false if not all ships are sunk', () => {
+        const board = Gameboard();
+        const ship1 = Ship(2);
+        const ship2 = Ship(1);
+        board.placeShip(ship1, [{ x:0, y:0}, { x:1, y:0 }]);
+        board.placeShip(ship2, [{ x:2, y:0}]);
+        board.receiveAttack(0, 0);
+        board.receiveAttack(1, 0);
+        expect(ship1.isSunk()).toBe(true);
+        expect(ship2.isSunk()).toBe(false);
+        expect(board.allShipsSunk()).toBe(false);
+    });
+
+    test('allShipsSunk is true if all ships are sunk', () => {
+        const board = Gameboard();
+        const ship1 = Ship(2);
+        const ship2 = Ship(1);
+        board.placeShip(ship1, [{ x:0, y:0}, { x:1, y:0 }]);
+        board.placeShip(ship2, [{ x:2, y:0}]);
+        board.receiveAttack(0, 0);
+        board.receiveAttack(1, 0);
+        board.receiveAttack(2, 0);
+        expect(ship1.isSunk()).toBe(true);
+        expect(ship2.isSunk()).toBe(true);
+        expect(board.allShipsSunk()).toBe(true);
+    });
+
+    test('allShipsSunk is false if no ships placed', () => {
+        const board = Gameboard();
+        expect(board.allShipsSunk()).toBe(false);
+    });
+});
