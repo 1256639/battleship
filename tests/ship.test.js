@@ -26,4 +26,12 @@ describe('Ship', () => {
         ship.hit();
         expect(ship.isSunk()).toBe(true);
     });
+
+    test('hit() does not increment past length', () => {
+        const ship = Ship(1);
+        ship.hit();
+        ship.hit();
+        expect(ship.getHits()).toBe(1);
+        expect(ship.isSunk()).toBe(true);
+    });
 });
