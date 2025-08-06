@@ -19,4 +19,11 @@ describe('Ship', () => {
         ship.hit();
         expect(ship.isSunk()).toBe(false);
     });
+
+    test('isSunk() returns true if hits >= length', () => {
+        const ship = Ship(2);
+        ship.hit();
+        ship.hit();
+        expect(ship.isSunk()).toBe(true);
+    });
 });
