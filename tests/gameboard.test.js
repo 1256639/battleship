@@ -30,4 +30,11 @@ describe('Gameboard', () => {
         expect(result).toBe(false);
         expect(board.getMissedAttacks()).toEqual([{ x:5, y:5 }]);
     });
+
+    test('missed attacks are not duplicated', () => {
+        const board = Gameboard();
+        board.receiveAttack(3, 3);
+        board.receiveAttack(3, 3);
+        expect(board.getMissedAttacks()).toEqual([{ x:3, y:3 }]);
+    });
 })
