@@ -5,4 +5,12 @@ describe('Ship', () => {
         const ship = Ship(4);
         expect(ship.length).toBe(4);
     });
+
+    test('hit() increments hits', () => {
+        const ship = Ship(3);
+        ship.hit();
+        expect(ship.getHits()).toBe(1);
+        ship.hit();
+        expect(ship.getHits()).toBe(2);
+    })
 });
