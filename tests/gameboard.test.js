@@ -21,4 +21,13 @@ describe('Gameboard', () => {
         expect(result).toBe(true);
         expect(ship.getHits()).toBe(1);
     });
+
+    test('receiveAttack records missed attacks', () => {
+        const board = Gameboard();
+        const ship = Ship(2);
+        board.placeShip(ship, [{ x:0, y:0 }, {x:1, y:0 }]);
+        const result = board.receiveAttack(5, 5);
+        expect(result).toBe(false);
+        expect(board.getMissedAttacks()).toEqual([{ x:5, y:5 }]);
+    });
 })
