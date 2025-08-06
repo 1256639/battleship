@@ -12,5 +12,11 @@ describe('Ship', () => {
         expect(ship.getHits()).toBe(1);
         ship.hit();
         expect(ship.getHits()).toBe(2);
-    })
+    });
+
+    test ('isSunk() returns false if not enough hits', () => {
+        const ship = Ship(2);
+        ship.hit();
+        expect(ship.isSunk()).toBe(false);
+    });
 });
