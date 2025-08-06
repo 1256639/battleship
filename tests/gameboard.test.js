@@ -11,4 +11,14 @@ describe('Gameboard', () => {
         expect(ships[0].coordinates).toEqual([{ x:0, y:0 }, { x:1, y:0 }, { x:2, y:0 }]);
         expect(ships[0].ship).toBe(ship);
     });
+
+    test('receiveAttack hits the correct ship and calls ship.hit()', () => {
+        const board = Gameboard();
+        const ship = Ship(2);
+        board.placeShip(ship, [{ x: 0, y:0 }, {x:1, y:0 }]);
+        expect(ship.getHits()).toBe(0);
+        const result = board.receiveAttack(1, 0);
+        expect(result).toBe(true);
+        expect(ship.getHits()).toBe(1);
+    });
 })
