@@ -1,0 +1,43 @@
+body {
+  font-family: sans-serif;
+  background: #f5f7fa;
+  margin: 0;
+  padding: 0;
+}
+#root {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(10, 30px);
+  grid-template-rows: repeat(10, 30px);
+  gap: 2px;
+  background: #222;
+  padding: 8px;
+  border-radius: 8px;
+}
+.cell {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: #e8e8e8;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.15s;
+}
+.cell.ship {
+  background: #b0c4de;
+}
+.cell.hit {
+  background: #e57373;
+}
+.cell.miss {
+  background: #90caf9;
+}
+.cell:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
