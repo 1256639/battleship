@@ -1,6 +1,7 @@
 import Player from './player.js';
 import { renderBoards } from './dom.js';
 import Ship from './ship.js';
+import './style.css';
 
 const player = Player('human');
 const computer = Player('computer');
