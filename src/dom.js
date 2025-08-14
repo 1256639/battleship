@@ -17,6 +17,8 @@ function createBoardElement(player, boardName) {
                 ship.coordinates.some(coord => coord.x === x && coord.y === y)
             );
 
+            const coordObj = shipEntry ? shipEntry.coordinates.find(coord => coord.x === x && coord.y === y): null;
+            
             if (shipEntry) {
                 const coordObj = shipEntry.coordinates.find(coord => coord.x === x && coord.y === y);
                 if (coordObj.hit) {
