@@ -40,6 +40,8 @@ function createBoardElement(player, boardName, allowDrop = false) {
     const boardDiv = document.createElement('div');
     boardDiv.classList.add('gameboard');
     boardDiv.dataset.player = boardName;
+    
+    let dragPreview = [];
 
     for (let y = 0; y < 10; y++) {
         for (let x = 0; x < 10; x++) {
@@ -53,11 +55,10 @@ function createBoardElement(player, boardName, allowDrop = false) {
             );
             const coordObj = shipEntry ? shipEntry.coordinates.find(coord => coord.x === x && coord.y === y) : null;
 
-            // Friendly ships rendered as green squares
-            if (boardName === 'player' && shipEntry) {
+            if (shipEntry) {
                 if (coordObj.hit) {
                     cell.classList.add('hit');
-                } else {
+                } else if (boardName === 'player') {
                     cell.classList.add('ship');
                 }
             }
@@ -67,19 +68,33 @@ function createBoardElement(player, boardName, allowDrop = false) {
             if (isMiss) {
                 cell.classList.add('miss');
             }
-
-            // Allow dropping ships on player board
+          
             if (allowDrop) {
                 cell.addEventListener('dragover', (e) => {
                     e.preventDefault();
-                    cell.classList.add('ship-preview');
+                    const rawData = e.dataTransfer.getData('text/plain');
+                    if (!rawData) return;
+                    const data = JSON.parse(rawData);
+                    
+                    dragPreview.forEach(c => c.classList.remove('ship-preview'));
+                    dragPreview = [];
+                    
+                    for (let i = 0; i < data.length; i++) {
+                        const previewCell = boardDiv.querySelector(`.cell[data-x="${x + i}"][data-y="${y}"]`);
+                        if (previewCell) {
+                            previewCell.classList.add('ship-preview');
+                            dragPreview.push(previewCell);
+                        }
+                    }
                 });
                 cell.addEventListener('dragleave', () => {
-                    cell.classList.remove('ship-preview');
+                    dragPreview.forEach(c => c.classList.remove('ship-preview'));
+                    dragPreview = [];
                 });
                 cell.addEventListener('drop', (e) => {
                     e.preventDefault();
-                    cell.classList.remove('ship-preview');
+                    dragPreview.forEach(c => c.classList.remove('ship-preview'));
+                    dragPreview = [];
                     const data = JSON.parse(e.dataTransfer.getData('text/plain'));
                     window.handleShipDrop(x, y, data.length, data.idx);
                 });

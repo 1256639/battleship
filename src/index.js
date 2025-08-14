@@ -57,8 +57,10 @@ window.handleAttack = function(x, y) {
     renderBoards(player, computer, shipsToPlace, placingPhase);
 
     if (computer.gameboard.allShipsSunk()) {
-        alert('You win!');
-        resetGame();
+        setTimeout(() => {
+            alert('You win!');
+            resetGame();
+        }, 300);
         return;
     }
 
@@ -77,10 +79,12 @@ window.handleAttack = function(x, y) {
         renderBoards(player, computer, shipsToPlace, placingPhase);
 
         if (player.gameboard.allShipsSunk()) {
-            alert('Computer wins!');
-            resetGame();
+            setTimeout(() => {
+                alert('Computer wins!');
+                resetGame();
+            }, 300);
             return;
-        }
+        }   
         playerTurn = true;
     }, 500);
 };

@@ -53,8 +53,9 @@ body {
   gap: 2rem;
 }
 .draggable-ship {
-  display: flex;
-  gap: 2px;
+  display: inline-grid;
+  grid-auto-flow: column;
+  gap: 0;
   cursor: grab;
 }
 .ship-block {
