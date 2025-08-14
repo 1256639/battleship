@@ -13,12 +13,15 @@ function createBoardElement(player, boardName) {
             cell.dataset.x = x;
             cell.dataset.y = y;
 
-            if (player.type === 'human') {
-                const hasShip = player.gameboard.getShips().some(ship => 
-                    ship.coordinates.some(coord => coord.x === x && coord.y === y)
-                );
+            const shipEntry = player.gameboard.getShips().find(ship => 
+                ship.coordinates.some(coord => coord.x === x && coord.y === y)
+            );
 
-                if (hasShip) {
+            if (shipEntry) {
+                const coordObj = shipEntry.coordinates.find(coord => coord.x === x && coord.y === y);
+                if (coordObj.hit) {
+                    cell.classList.add('hit');
+                } else {
                     cell.classList.add('ship');
                 }
             }
@@ -28,7 +31,7 @@ function createBoardElement(player, boardName) {
                 cell.classList.add('miss');
             }
 
-            if (player.type === 'computer' && !isMiss) {
+            if (player.type === 'computer' && !isMiss && (!shipEntry || !coordObj?.hit)) {
                 cell.addEventListener('click', (e) => {
                     if (typeof window.handleAttack === 'function') {
                         window.handleAttack(x, y);

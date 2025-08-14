@@ -5,15 +5,19 @@ export default function Gameboard() {
     const missedAttacks = [];
 
     function placeShip(ship, coordinates) {
-        ships.push({ ship, coordinates });
+        ships.push({ ship, coordinates: coordinates.map(coord => ({ ...coord, hit: false })) });
     }
 
     function receiveAttack(x, y) {
         for (let s of ships) {
-            if (s.coordinates.some(coord => coord.x === x && coord.y === y)) {
-                s.ship.hit();
+            const coordObj = s.coordinates.find(coord => coord.x === x && coord.y === y);
+            if (coordObj) {
+                if (!coordObj.hit) {
+                    coordObj.hit = true;
+                    s.ship.hit();
+                }
                 return true;
-            }
+            }        
         }
 
         if (!missedAttacks.some(coord => coord.x === x && coord.y === y)) {
